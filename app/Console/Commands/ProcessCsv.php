@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Jobs\ProcessCsvJob;
+use App\Jobs\JobProcessCsv;
 
 class ProcessCsv extends Command
 {
@@ -26,7 +26,9 @@ class ProcessCsv extends Command
      */
     public function handle(): void
     {
-        ProcessCsvJob::dispatch()->onQueue('file_processing');
+        $filePath = 'app/csv/data.csv';
+        var_dump($filePath); // Affiche le contenu de la variable $filepath dans la console
+        JobProcessCsv::dispatch($filePath)->onQueue('file_processing');
         $this->info('Job dispatched');
     }
 }
