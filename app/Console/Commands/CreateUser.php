@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\User;
+use App\Events\CreateUser as CreateUserEvent;
 
 class CreateUser extends Command
 {
@@ -29,6 +30,21 @@ class CreateUser extends Command
         $name = $this->argument('name');
         $email = $this->argument('email');
         $role = $this->option('role');
+        if(User::where('email', $email)->exists()) {
+            $this->error("L'utilisateur $email existe déjà");
+            return;
+        }
+        if (!$role) {
+            $role = $this->confirm('Voulez-vous créer un utilisateur avec le rôle client ?') ? 'client' : 
+                $this->choice('Quel est le rôle de l\'utilisateur ?', ['client', 'admin', 'super_admin'], 0);
+        }
+        CreateUserEvent::dispatch($name, $email, $role);
+        $this->info("L'utilisateur $name a été créé avec le rôle $role");
+
+
+        /*$name = $this->argument('name');
+        $email = $this->argument('email');
+        $role = $this->option('role');
         if ($role) {
             $userRole = $role;
         } else {
@@ -40,6 +56,6 @@ class CreateUser extends Command
         $user->email = $email;
         $user->role = $userRole;
         $user->save();
-        $this->info("L'utilisateur $name a été créé avec le rôle $userRole");
+        $this->info("L'utilisateur $name a été créé avec le rôle $userRole");*/
     }
 }

@@ -6,6 +6,10 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Events\CreateUser;
+use App\Listeners\PersistAUser;
+use App\Listeners\SendAWelcomeEmail;
+use App\Listeners\DownloadUserAvatar;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,6 +19,11 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
+        CreateUser::class => [
+            PersistAUser::class,
+            SendAWelcomeEmail::class,
+            DownloadUserAvatar::class,
+        ],
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
