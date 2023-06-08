@@ -26,6 +26,8 @@ class User extends Authenticatable
         'name',
         'email',
         'role',
+        'authentication_token',
+        'authentication_token_generated_at',
     ];
 
     /**
@@ -44,6 +46,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'authentication_token_generated_at' => 'datetime'
     ];
 
     public function sendAuthenticationMail(?string $redirect_to = null): void

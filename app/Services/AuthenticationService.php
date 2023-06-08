@@ -24,7 +24,7 @@ class AuthenticationService
     }
     public function checkToken(string $token): bool
     {
-        if($this->user->authentication_token === $token){
+        if($this->user->authentication_token != $token){
             return false;
         }
         else if($this->user->authentication_token_generated_at->diffInHours(now()) >= 24){
