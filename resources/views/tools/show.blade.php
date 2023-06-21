@@ -11,7 +11,6 @@
 
         <!-- Styles -->
         <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-
         <style>
             body {
                 font-family: 'Nunito', sans-serif;
@@ -21,8 +20,11 @@
     <body class="antialiased">
         <div>
             <p>Tools name : {{$tool->name}}</p>
-            <p>Tools price : {{$tool->price}}</p>
+            <p>Tools price : {{$tool->price->toArray()['price']}}</p>
             <p>Tools description : {{$tool->description}}</p>
+        </div>
+        <div>
+            <a href="{{route('tools.index')}}">Retour</a>
         </div>
     </body>
 </html>
